@@ -1,10 +1,10 @@
 <form [formGroup]="loginData" (ngSubmit)="loginForm()">
     <h1>Login Here</h1>
     <div>
-        <label for="mailid">Username: </label><br />
-        <input type="text" id="mailid" placeholder="Email Id" formControlName="mailid"><br />
-        <small *ngIf="loginData.get('mailid').invalid && loginData.get('mailid').touched">
-            Enter valid Mail Id!
+        <label for="name">Username: </label><br />
+        <input type="text" id="name" placeholder="name" formControlName="name"><br />
+        <small *ngIf="loginData.get('name').invalid && loginData.get('name').touched">
+            Enter valid Username
         </small>
     </div>
     <div>

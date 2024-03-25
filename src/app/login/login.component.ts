@@ -9,34 +9,40 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   loginData: FormGroup;
 
-  @Input() userData: { name: string, username: string, mailid: string, age: number, password: string }[];
-  //users: { name: string, username: string, mailid: string, age: number, password: string }[] = [];
-
-  mailid: string;
-  password: string;
+  @Input() userData: { name: string, mailid: string, password: string }[];
 
   ngOnInit(): void {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).+$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
     this.loginData = new FormGroup({
-      mailid: new FormControl("", [Validators.required, Validators.email]),
+      name: new FormControl("", [Validators.required, Validators.minLength(6)]),
       password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.pattern(passwordPattern)])
     });
   }
 
   loginForm(): void {
-    this.mailid = this.loginData.get('mailid').value;
-    this.password = this.loginData.get('password').value;
-
-    let flag = false;
-    for (const user of this.userData) {
-      if (user.mailid === this.mailid && user.password === this.password) {
-        console.log('Login successful');
-        flag = true;
-        break;
-      }
+    if (!this.userData || this.userData.length === 0) {
+      console.log('Error: No user data available');
+      return;
     }
-    if (!flag) {
-      console.log('Invalid email or password');
+
+    if (this.loginData.valid) {
+      const name = this.loginData.get('name').value;
+      const password = this.loginData.get('password').value;
+
+      let userFound = false;
+      for (let i = 0; i < this.userData.length; i++) {
+        const user = this.userData[i];
+        if (user.name === name && user.password === password) {
+          console.log('Login successful');
+          userFound = true;
+          break;
+        }
+      }
+      if (!userFound) {
+        console.log('Invalid email or password');
+      }
+    } else {
+      console.log('Form is invalid');
     }
   }
 }
