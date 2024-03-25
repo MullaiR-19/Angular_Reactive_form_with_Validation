@@ -1,0 +1,20 @@
+<form [formGroup]="loginData" (ngSubmit)="loginForm()">
+    <h1>Login Here</h1>
+    <div>
+        <label for="mailid">Username: </label><br />
+        <input type="text" id="mailid" placeholder="Email Id" formControlName="mailid"><br />
+        <small *ngIf="loginData.get('mailid').invalid && loginData.get('mailid').touched">
+            Enter valid Mail Id!
+        </small>
+    </div>
+    <div>
+        <label for="password">Password: </label><br />
+        <input type="password" id="password" placeholder="Password" formControlName="password"><br />
+        <small *ngIf="loginData.get('password').invalid && loginData.get('password').touched">
+            Password can't be empty!
+        </small>
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>
